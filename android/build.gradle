@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services' // FlutterFire
+    id 'org.jetbrains.kotlin.android'
+    id 'dev.flutter.flutter-gradle-plugin'
+}
+
+android {
+    namespace 'com.example.agendamento_app'
+    compileSdk 34
+    ndkVersion '27.0.12077973'
+
+    defaultConfig {
+        applicationId "com.seemg.agendamento"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug // Usa o debug key temporariamente
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    // Importa o Firebase BoM (Bill of Materials)
+    implementation platform('com.google.firebase:firebase-bom:34.0.0')
+
+    // Adiciona o Firebase Analytics
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Adicione aqui outros produtos Firebase se necessário:
+    // ex: implementation 'com.google.firebase:firebase-auth'
+}
