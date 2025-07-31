@@ -70,15 +70,12 @@ class CalendarPage extends StatelessWidget {
               textStyle: TextStyle(
                 color: colorScheme.onSurface,
               ),
-              todayTextStyle: TextStyle(
-                color: colorScheme.tertiary,
-                fontWeight: FontWeight.bold,
-              ),
+              
               leadingDatesTextStyle: TextStyle(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withAlpha((255 * 0.6).round()),
               ),
               trailingDatesTextStyle: TextStyle(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withAlpha((255 * 0.6).round()),
               ),
             ),
           ),

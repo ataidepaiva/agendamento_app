@@ -5,8 +5,7 @@ class GerenciarCalendarioPage extends StatefulWidget {
   const GerenciarCalendarioPage({super.key});
 
   @override
-  GerenciarCalendarioPageState createState() =>
-      GerenciarCalendarioPageState();
+  GerenciarCalendarioPageState createState() => GerenciarCalendarioPageState();
 }
 
 class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
@@ -110,10 +109,9 @@ class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
             defaultBuilder: (context, day, focusedDay) {
               final carros = _getCarsForDay(day);
               return Container(
-                margin: EdgeInsets.zero,
+                margin: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
-                  color: carros.isEmpty ? colorScheme.surfaceVariant : colorScheme.surfaceVariant.withOpacity(0.8),
-                  border: Border.all(color: colorScheme.outline, width: 1.0),
+                  color: carros.isEmpty ? Colors.transparent : colorScheme.surfaceContainerHighest.withAlpha((255 * 0.8).round()),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -142,10 +140,9 @@ class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
             },
             todayBuilder: (context, day, focusedDay) {
               return Container(
-                margin: EdgeInsets.zero,
+                margin: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
                   color: colorScheme.tertiary,
-                  border: Border.all(color: colorScheme.outline, width: 1.0),
                 ),
                 child: Center(
                   child: Text(
@@ -160,10 +157,9 @@ class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
             },
             selectedBuilder: (context, day, focusedDay) {
               return Container(
-                margin: EdgeInsets.zero,
+                margin: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
                   color: colorScheme.primary,
-                  border: Border.all(color: colorScheme.outline, width: 1.0),
                 ),
                 child: Center(
                   child: Text(
@@ -182,4 +178,3 @@ class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
     );
   }
 }
-
