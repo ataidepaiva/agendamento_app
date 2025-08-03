@@ -25,7 +25,7 @@ final GoRouter router = GoRouter(
     GoRoute(path: '/', builder: (context, state) => const LoginPage()),
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(
-      path: '/register_page',
+      path: '/register',
       builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
