@@ -5,7 +5,9 @@ final ThemeData adminTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     seedColor: const Color(0xFF005A9C), // Azul corporativo
     brightness: Brightness.dark,
-    primary: const Color(0xFF007BFF), // Azul mais claro para contraste no modo escuro
+    primary: const Color(
+      0xFF007BFF,
+    ), // Azul mais claro para contraste no modo escuro
     secondary: const Color(0xFF0056b3),
     surface: const Color(0xFF121212), // Fundo escuro padrão
     onPrimary: Colors.white,
@@ -13,7 +15,9 @@ final ThemeData adminTheme = ThemeData(
     onSurface: Colors.white70,
   ),
   useMaterial3: true,
-  scaffoldBackgroundColor: const Color(0xFF1F1F1F), // Um pouco mais claro que o surface
+  scaffoldBackgroundColor: const Color(
+    0xFF1F1F1F,
+  ), // Um pouco mais claro que o surface
   cardColor: const Color(0xFF2A2A2A), // Cor dos cards
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFF003D6B), // Azul corporativo escuro
@@ -27,7 +31,11 @@ final ThemeData adminTheme = ThemeData(
     ),
   ),
   textTheme: const TextTheme(
-    titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+    titleLarge: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+      color: Colors.white,
+    ),
     bodyMedium: TextStyle(color: Colors.white70),
   ),
 );

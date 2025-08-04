@@ -9,7 +9,6 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-
   Future<void> _logout() async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -33,7 +32,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
       context.go('/login');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

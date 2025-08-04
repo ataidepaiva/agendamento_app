@@ -47,7 +47,9 @@ class _MeusAgendamentosPageState extends State<MeusAgendamentosPage> {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            debugPrint('📭 Nenhum agendamento encontrado para UID: ${usuario.uid}');
+            debugPrint(
+              '📭 Nenhum agendamento encontrado para UID: ${usuario.uid}',
+            );
             return const Center(child: Text('Nenhum agendamento encontrado.'));
           }
 
@@ -67,7 +69,9 @@ class _MeusAgendamentosPageState extends State<MeusAgendamentosPage> {
                 final rotaId = agendamento['rotaId'] ?? '';
 
                 if (data == null) {
-                  debugPrint('⚠️ Agendamento sem dataHoraViagem: ${agendamento.id}');
+                  debugPrint(
+                    '⚠️ Agendamento sem dataHoraViagem: ${agendamento.id}',
+                  );
                   return ListTile(
                     title: const Text('Agendamento sem data'),
                     subtitle: Text('ID: ${agendamento.id}'),

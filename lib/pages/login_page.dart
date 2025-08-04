@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
 
       if (tipoUsuario == 'admin') {
-        context.go('/admin_home_page');
+        context.go('/admin/home');
       } else {
         context.go('/home');
       }
@@ -304,14 +304,14 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton(
-                                  onPressed: () => context.go('/register_page'),
+                                  onPressed: () => context.go('/register'),
                                   child: const Text(
                                     'Ainda não tem registro? Cadastre-se',
                                   ),
                                 ),
                                 TextButton(
                                   onPressed: () =>
-                                      context.go('/reset-password_page'),
+                                      context.go('/reset-password'),
                                   child: const Text('Esqueci minha senha'),
                                 ),
                               ],

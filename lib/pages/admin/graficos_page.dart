@@ -24,7 +24,9 @@ class _GraficosPageState extends State<GraficosPage> {
   }
 
   Future<void> _carregarDados() async {
-    final snapshot = await FirebaseFirestore.instance.collection('agendamentos').get();
+    final snapshot = await FirebaseFirestore.instance
+        .collection('agendamentos')
+        .get();
 
     final tempStatusCounts = <String, int>{};
     final tempMotoristaCounts = <String, int>{};
@@ -37,7 +39,8 @@ class _GraficosPageState extends State<GraficosPage> {
       final veiculoId = (data['veiculoId'] ?? 'Sem Veículo').toString();
 
       tempStatusCounts[status] = (tempStatusCounts[status] ?? 0) + 1;
-      tempMotoristaCounts[motoristaId] = (tempMotoristaCounts[motoristaId] ?? 0) + 1;
+      tempMotoristaCounts[motoristaId] =
+          (tempMotoristaCounts[motoristaId] ?? 0) + 1;
       tempVeiculoCounts[veiculoId] = (tempVeiculoCounts[veiculoId] ?? 0) + 1;
     }
 
@@ -50,7 +53,10 @@ class _GraficosPageState extends State<GraficosPage> {
   }
 
   List<PieChartSectionData> _buildSections(Map<String, int> dataMap) {
-    final total = dataMap.values.fold<int>(0, (previousValue, val) => previousValue + val);
+    final total = dataMap.values.fold<int>(
+      0,
+      (previousValue, val) => previousValue + val,
+    );
     final colors = [
       Colors.blue,
       Colors.green,
@@ -70,7 +76,11 @@ class _GraficosPageState extends State<GraficosPage> {
         value: value,
         title: '${entry.key}\n${percentage.toStringAsFixed(1)}%',
         radius: 60,
-        titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+        titleStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       );
       colorIndex++;
       return section;
@@ -84,7 +94,10 @@ class _GraficosPageState extends State<GraficosPage> {
 
     return Column(
       children: [
-        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Text(
+          title,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 12),
         SizedBox(
           height: 220,
@@ -103,25 +116,19 @@ class _GraficosPageState extends State<GraficosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gráficos de Agendamentos'),
-        centerTitle: true,
-      ),
-      body: _carregando
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  _buildPieChart('Agendamentos por Status', statusCounts),
-                  const SizedBox(height: 32),
-                  _buildPieChart('Agendamentos por Motorista', motoristaCounts),
-                  const SizedBox(height: 32),
-                  _buildPieChart('Agendamentos por Veículo', veiculoCounts),
-                ],
-              ),
+    return _carregando
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                _buildPieChart('Agendamentos por Status', statusCounts),
+                const SizedBox(height: 32),
+                _buildPieChart('Agendamentos por Motorista', motoristaCounts),
+                const SizedBox(height: 32),
+                _buildPieChart('Agendamentos por Veículo', veiculoCounts),
+              ],
             ),
-    );
+          );
   }
 }

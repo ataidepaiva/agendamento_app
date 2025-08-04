@@ -30,7 +30,9 @@ final ThemeData appTheme = ThemeData(
     labelStyle: const TextStyle(color: Color(0xFF005A9C)),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
-      borderSide: const BorderSide(color: Color(0xFFCCCCCC)), // Cinza para bordas
+      borderSide: const BorderSide(
+        color: Color(0xFFCCCCCC),
+      ), // Cinza para bordas
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),

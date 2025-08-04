@@ -12,6 +12,24 @@ class GerenciarAgendamentosPage extends StatefulWidget {
 
 class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
   static final Map<String, Map<String, dynamic>?> _userCache = {};
+  final TextEditingController _searchController = TextEditingController();
+  String _searchTerm = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(() {
+      setState(() {
+        _searchTerm = _searchController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   Future<Map<String, dynamic>?> _buscarSolicitante(String solicitanteId) async {
     if (solicitanteId.isEmpty) return null;
@@ -32,7 +50,9 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
     }
   }
 
-  Future<void> _atualizarStatus(String agendamentoId, String status, {
+  Future<void> _atualizarStatus(
+    String agendamentoId,
+    String status, {
     String? motoristaId,
     String? veiculoId,
     String? motivo,
@@ -49,7 +69,10 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
         .update(updateData);
   }
 
-  Future<void> _mostrarDialogoIndeferir(BuildContext context, String agendamentoId) async {
+  Future<void> _mostrarDialogoIndeferir(
+    BuildContext context,
+    String agendamentoId,
+  ) async {
     final motivoController = TextEditingController();
     return showDialog(
       context: context,
@@ -58,7 +81,9 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
           title: const Text('Indeferir Agendamento'),
           content: TextField(
             controller: motivoController,
-            decoration: const InputDecoration(labelText: 'Motivo do indeferimento'),
+            decoration: const InputDecoration(
+              labelText: 'Motivo do indeferimento',
+            ),
           ),
           actions: [
             TextButton(
@@ -81,8 +106,14 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
     );
   }
 
-  Future<void> _mostrarDialogoDeferir(String agendamentoId, Timestamp dataViagem) async {
-    final motoristasDisponiveis = await _getDisponiveis('motoristas', dataViagem);
+  Future<void> _mostrarDialogoDeferir(
+    String agendamentoId,
+    Timestamp dataViagem,
+  ) async {
+    final motoristasDisponiveis = await _getDisponiveis(
+      'motoristas',
+      dataViagem,
+    );
     final veiculosDisponiveis = await _getDisponiveis('veiculos', dataViagem);
 
     if (!mounted) return;
@@ -100,10 +131,12 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
             children: [
               DropdownButtonFormField<String>(
                 items: motoristasDisponiveis
-                    .map((doc) => DropdownMenuItem(
-                          value: doc.id,
-                          child: Text(doc.data()['nome'] ?? 'Sem nome'),
-                        ))
+                    .map(
+                      (doc) => DropdownMenuItem(
+                        value: doc.id,
+                        child: Text(doc.data()['nome'] ?? 'Sem nome'),
+                      ),
+                    )
                     .toList(),
                 onChanged: (value) => motoristaSelecionado = value,
                 decoration: const InputDecoration(labelText: 'Motorista'),
@@ -111,10 +144,12 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 items: veiculosDisponiveis
-                    .map((doc) => DropdownMenuItem(
-                          value: doc.id,
-                          child: Text(doc.data()['modelo'] ?? 'Sem modelo'),
-                        ))
+                    .map(
+                      (doc) => DropdownMenuItem(
+                        value: doc.id,
+                        child: Text(doc.data()['modelo'] ?? 'Sem modelo'),
+                      ),
+                    )
                     .toList(),
                 onChanged: (value) => veiculoSelecionado = value,
                 decoration: const InputDecoration(labelText: 'Veículo'),
@@ -128,8 +163,14 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (motoristaSelecionado != null && veiculoSelecionado != null) {
-                  _atualizarStatus(agendamentoId, 'confirmado', motoristaId: motoristaSelecionado, veiculoId: veiculoSelecionado);
+                if (motoristaSelecionado != null &&
+                    veiculoSelecionado != null) {
+                  _atualizarStatus(
+                    agendamentoId,
+                    'confirmado',
+                    motoristaId: motoristaSelecionado,
+                    veiculoId: veiculoSelecionado,
+                  );
                   Navigator.of(dialogContext).pop();
                 }
               },
@@ -142,7 +183,9 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> _getDisponiveis(
-      String collection, Timestamp dataViagem) async {
+    String collection,
+    Timestamp dataViagem,
+  ) async {
     final agendamentosNoDia = await FirebaseFirestore.instance
         .collection('agendamentos')
         .where('dataViagem', isEqualTo: dataViagem)
@@ -150,7 +193,11 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
         .get();
 
     final idsIndisponiveis = agendamentosNoDia.docs
-        .map((doc) => doc.data()['${collection.substring(0, collection.length - 1)}Id'] as String?)
+        .map(
+          (doc) =>
+              doc.data()['${collection.substring(0, collection.length - 1)}Id']
+                  as String?,
+        )
         .where((id) => id != null)
         .toSet();
 
@@ -284,24 +331,47 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
               _buildLocaisWidget(locais),
               if (status == 'indeferido' && motivoIndeferimento != null) ...[
                 const SizedBox(height: 8),
-                _buildInfoRow(Icons.comment_outlined, 'Motivo', motivoIndeferimento),
+                _buildInfoRow(
+                  Icons.comment_outlined,
+                  'Motivo',
+                  motivoIndeferimento,
+                ),
               ],
-              if (motoristaId != null && motoristaId.isNotEmpty && veiculoId != null && veiculoId.isNotEmpty) ...[
+              if (motoristaId != null &&
+                  motoristaId.isNotEmpty &&
+                  veiculoId != null &&
+                  veiculoId.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance.collection('motoristas').doc(motoristaId).get(),
+                  future: FirebaseFirestore.instance
+                      .collection('motoristas')
+                      .doc(motoristaId)
+                      .get(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const SizedBox.shrink();
-                    final motorista = snapshot.data!.data() as Map<String, dynamic>;
-                    return _buildInfoRow(Icons.person, 'Motorista', motorista['nome'] ?? 'Não encontrado');
+                    final motorista =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    return _buildInfoRow(
+                      Icons.person,
+                      'Motorista',
+                      motorista['nome'] ?? 'Não encontrado',
+                    );
                   },
                 ),
                 FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance.collection('veiculos').doc(veiculoId).get(),
+                  future: FirebaseFirestore.instance
+                      .collection('veiculos')
+                      .doc(veiculoId)
+                      .get(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const SizedBox.shrink();
-                    final veiculo = snapshot.data!.data() as Map<String, dynamic>;
-                    return _buildInfoRow(Icons.directions_car, 'Veículo', veiculo['modelo'] ?? 'Não encontrado');
+                    final veiculo =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    return _buildInfoRow(
+                      Icons.directions_car,
+                      'Veículo',
+                      veiculo['modelo'] ?? 'Não encontrado',
+                    );
                   },
                 ),
               ],
@@ -355,17 +425,22 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => _mostrarDialogoIndeferir(context, agendamento.id),
+                      onPressed: () =>
+                          _mostrarDialogoIndeferir(context, agendamento.id),
                       child: const Text('Indeferir'),
                     ),
                     const SizedBox(width: 8),
                     TextButton(
-                      onPressed: () => _atualizarStatus(agendamento.id, 'cancelado'),
+                      onPressed: () =>
+                          _atualizarStatus(agendamento.id, 'cancelado'),
                       child: const Text('Cancelar'),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: () => _mostrarDialogoDeferir(agendamento.id, dados['dataViagem'] as Timestamp),
+                      onPressed: () => _mostrarDialogoDeferir(
+                        agendamento.id,
+                        dados['dataViagem'] as Timestamp,
+                      ),
                       child: const Text('Deferir'),
                     ),
                   ],
@@ -409,19 +484,25 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: locaisData.map<Widget>((local) {
-                final municipio = local['municipio'] ?? 'Município não informado';
+                final municipio =
+                    local['municipio'] ?? 'Município não informado';
                 final escolas = local['escolas'] as List<dynamic>? ?? [];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('• $municipio', style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      '• $municipio',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: escolas.map((escola) => Text('- $escola')).toList(),
+                        children: escolas
+                            .map((escola) => Text('- $escola'))
+                            .toList(),
                       ),
-                    )
+                    ),
                   ],
                 );
               }).toList(),
@@ -481,121 +562,203 @@ class _GerenciarAgendamentosPageState extends State<GerenciarAgendamentosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gerenciar Agendamentos'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                _userCache.clear();
-              });
-            },
-            tooltip: 'Atualizar',
-          ),
-        ],
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('agendamentos').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            debugPrint(snapshot.error.toString());
-            return Center(child: Text('Erro: ${snapshot.error}'));
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.event_busy, size: 64, color: Colors.grey),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Nenhum agendamento encontrado',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Os agendamentos aparecerão aqui quando forem criados',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              labelText: 'Pesquisar',
+              hintText: 'Pesquise por status, data, local...',
+              prefixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-            );
-          }
+              contentPadding: const EdgeInsets.symmetric(vertical: 10),
+            ),
+          ),
+        ),
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('agendamentos')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                debugPrint(snapshot.error.toString());
+                return Center(child: Text('Erro: ${snapshot.error}'));
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.event_busy,
+                        size: 64,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Nenhum agendamento encontrado',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Os agendamentos aparecerão aqui quando forem criados',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
+                );
+              }
 
-          final agendamentos = snapshot.data!.docs;
+              final agendamentos = snapshot.data!.docs;
 
-          agendamentos.sort((a, b) {
-            final dataA = a.data() as Map<String, dynamic>;
-            final dataB = b.data() as Map<String, dynamic>;
-            final timestampA = dataA['dataViagem'] as Timestamp?;
-            final timestampB = dataB['dataViagem'] as Timestamp?;
+              final agendamentosFiltrados = agendamentos.where((agendamento) {
+                if (_searchTerm.isEmpty) return true;
 
-            if (timestampA == null && timestampB == null) return 0;
-            if (timestampA == null) return 1;
-            if (timestampB == null) return -1;
-
-            return timestampB.compareTo(timestampA);
-          });
-
-          return RefreshIndicator(
-            onRefresh: () async {
-              setState(() {
-                _userCache.clear();
-              });
-            },
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: agendamentos.length,
-              itemBuilder: (context, index) {
-                final agendamento = agendamentos[index];
                 final dados = agendamento.data() as Map<String, dynamic>;
+                final searchTermLower = _searchTerm.toLowerCase();
 
-                return FutureBuilder<Map<String, dynamic>?>(
-                  future: _buscarSolicitante(dados['solicitanteId'] ?? ''),
-                  builder: (context, userSnapshot) {
-                    if (userSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              Text('Carregando informações...'),
-                            ],
-                          ),
-                        ),
-                      );
+                if ((dados['status'] ?? '').toLowerCase().contains(
+                  searchTermLower,
+                )) {
+                  return true;
+                }
+                if ((dados['descricao'] ?? '').toLowerCase().contains(
+                  searchTermLower,
+                )) {
+                  return true;
+                }
+                if ((dados['motivoIndeferimento'] ?? '').toLowerCase().contains(
+                  searchTermLower,
+                )) {
+                  return true;
+                }
+
+                final dataViagemTimestamp = dados['dataViagem'] as Timestamp?;
+                if (dataViagemTimestamp != null) {
+                  final dataFormatada = DateFormat(
+                    'dd/MM/yyyy',
+                  ).format(dataViagemTimestamp.toDate());
+                  if (dataFormatada.contains(searchTermLower)) return true;
+                }
+
+                if (dados['locais'] is List) {
+                  for (final local in dados['locais']) {
+                    if ((local['municipio'] ?? '').toLowerCase().contains(
+                      searchTermLower,
+                    )) {
+                      return true;
                     }
+                    if (local['escolas'] is List) {
+                      for (final escola in local['escolas']) {
+                        if (escola.toString().toLowerCase().contains(
+                          searchTermLower,
+                        )) {
+                          return true;
+                        }
+                      }
+                    }
+                  }
+                }
 
-                    return _buildAgendamentoCard(
-                      context,
-                      agendamento,
-                      userSnapshot.data,
+                final solicitanteId = dados['solicitanteId'];
+                if (solicitanteId != null &&
+                    _userCache.containsKey(solicitanteId)) {
+                  final solicitante = _userCache[solicitanteId];
+                  if (solicitante != null) {
+                    if ((solicitante['nome'] ?? '').toLowerCase().contains(
+                      searchTermLower,
+                    )) {
+                      return true;
+                    }
+                    if ((solicitante['email'] ?? '').toLowerCase().contains(
+                      searchTermLower,
+                    )) {
+                      return true;
+                    }
+                  }
+                }
+
+                return false;
+              }).toList();
+
+              agendamentosFiltrados.sort((a, b) {
+                final dataA = a.data() as Map<String, dynamic>;
+                final dataB = b.data() as Map<String, dynamic>;
+                final timestampA = dataA['dataViagem'] as Timestamp?;
+                final timestampB = dataB['dataViagem'] as Timestamp?;
+
+                if (timestampA == null && timestampB == null) return 0;
+                if (timestampA == null) return 1;
+                if (timestampB == null) return -1;
+
+                return timestampB.compareTo(timestampA);
+              });
+
+              return RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {
+                    _userCache.clear();
+                  });
+                },
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  itemCount: agendamentosFiltrados.length,
+                  itemBuilder: (context, index) {
+                    final agendamento = agendamentosFiltrados[index];
+                    final dados = agendamento.data() as Map<String, dynamic>;
+
+                    return FutureBuilder<Map<String, dynamic>?>(
+                      future: _buscarSolicitante(dados['solicitanteId'] ?? ''),
+                      builder: (context, userSnapshot) {
+                        if (userSnapshot.connectionState ==
+                                ConnectionState.waiting &&
+                            !_userCache.containsKey(dados['solicitanteId'])) {
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                  SizedBox(width: 16),
+                                  Text('Carregando informações...'),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+
+                        return _buildAgendamentoCard(
+                          context,
+                          agendamento,
+                          userSnapshot.data,
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

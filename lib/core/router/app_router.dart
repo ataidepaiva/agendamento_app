@@ -1,3 +1,4 @@
+import 'package:agendamento_app/pages/admin/admin_dashboard_page.dart';
 import 'package:go_router/go_router.dart';
 
 // Importando suas páginas
@@ -8,15 +9,10 @@ import 'package:agendamento_app/pages/verify_email_page.dart';
 import 'package:agendamento_app/pages/home_page.dart';
 import 'package:agendamento_app/pages/meus_agendamentos_page.dart';
 import 'package:agendamento_app/pages/solicitar_agendamento_page.dart';
-import 'package:agendamento_app/pages/admin_home_page.dart' as admin;
 import 'package:agendamento_app/pages/admin/gerenciar_usuarios_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_motoristas_page.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_agendamentos_page.dart'
-    as gerenciar;
-import 'package:agendamento_app/pages/admin/graficos_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_escolas_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_veiculos_page.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_calendario_page.dart';
 
 // Definindo as rotas
 final GoRouter router = GoRouter(
@@ -29,7 +25,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
-      path: '/reset-password_page',
+      path: '/reset-password',
       builder: (context, state) => const ResetPasswordPage(),
     ),
 
@@ -47,37 +43,24 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SolicitarAgendamentoPage(),
     ),
     GoRoute(
-      path: '/admin_home_page',
-      builder: (context, state) => const admin.AdminHomePage(),
+      path: '/admin/home',
+      builder: (context, state) => const AdminDashboardPage(),
     ),
     GoRoute(
-      path: '/gerenciar_usuarios_page',
+      path: '/admin/users',
       builder: (context, state) => const GerenciarUsuariosPage(),
     ),
     GoRoute(
-      path: '/gerenciar_motoristas_page',
+      path: '/admin/drivers',
       builder: (context, state) => const GerenciarMotoristasPage(),
     ),
     GoRoute(
-      path: '/gerenciar_agendamentos_page',
-      builder: (context, state) => const gerenciar.GerenciarAgendamentosPage(),
-    ),
-
-    GoRoute(
-      path: '/graficos_page',
-      builder: (context, state) => const GraficosPage(),
-    ),
-    GoRoute(
-      path: '/gerenciar_escolas_page',
+      path: '/admin/schools',
       builder: (context, state) => const GerenciarEscolasPage(),
     ),
     GoRoute(
-      path: '/gerenciar_veiculos_page',
+      path: '/admin/vehicles',
       builder: (context, state) => const GerenciarVeiculosPage(),
-    ),
-    GoRoute(
-      path: '/gerenciar_calendario_page',
-      builder: (context, state) => const GerenciarCalendarioPage(),
     ),
   ],
 );

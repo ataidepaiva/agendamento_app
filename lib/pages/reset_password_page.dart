@@ -30,9 +30,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: _emailCtrl.text.trim(),
       );
-      
+
       setState(() {
-        _mensagem = 'Link de redefinição enviado!\nVerifique seu e-mail institucional.';
+        _mensagem =
+            'Link de redefinição enviado!\nVerifique seu e-mail institucional.';
         _sucesso = true;
       });
     } on FirebaseAuthException catch (e) {
@@ -102,14 +103,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               ),
             ),
           ),
-          Container(
-            color: Colors.black.withAlpha(115),
-          ),
+          Container(color: Colors.black.withAlpha(115)),
           Center(
             child: SingleChildScrollView(
               child: Container(
                 constraints: BoxConstraints(maxWidth: larguraMax),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 32,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withAlpha(247),
                   borderRadius: BorderRadius.circular(20),
@@ -136,7 +138,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       const SizedBox(height: 18),
                       const Text(
                         'Redefinição de Senha',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1A237E)),
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1A237E),
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
@@ -150,14 +156,20 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         controller: _emailCtrl,
                         decoration: InputDecoration(
                           labelText: 'E-mail institucional',
-                          prefixIcon: const Icon(Icons.email, color: Color(0xFF1976D2)),
+                          prefixIcon: const Icon(
+                            Icons.email,
+                            color: Color(0xFF1976D2),
+                          ),
                           filled: true,
                           fillColor: Colors.blueGrey[50]?.withAlpha(217),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 16,
+                          ),
                         ),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
@@ -184,7 +196,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           child: Text(
                             _mensagem,
                             style: TextStyle(
-                              color: _sucesso ? Colors.green[800] : Colors.red[800],
+                              color: _sucesso
+                                  ? Colors.green[800]
+                                  : Colors.red[800],
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
@@ -198,10 +212,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 width: 220,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
                                     backgroundColor: const Color(0xFF1976D2),
                                     foregroundColor: Colors.white,
-                                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                    textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -217,7 +236,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         onPressed: () => context.go('/login'),
                         child: const Text(
                           'Voltar ao Login',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],

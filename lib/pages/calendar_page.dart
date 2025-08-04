@@ -67,10 +67,8 @@ class CalendarPage extends StatelessWidget {
               ),
             ),
             monthCellStyle: MonthCellStyle(
-              textStyle: TextStyle(
-                color: colorScheme.onSurface,
-              ),
-              
+              textStyle: TextStyle(color: colorScheme.onSurface),
+
               leadingDatesTextStyle: TextStyle(
                 color: colorScheme.onSurface.withAlpha((255 * 0.6).round()),
               ),
@@ -86,14 +84,16 @@ class CalendarPage extends StatelessWidget {
 
   _AppointmentDataSource _getCalendarDataSource() {
     final List<Appointment> appointments = <Appointment>[];
-    
+
     // ADICIONE SEUS EVENTOS REAIS AQUI
-    appointments.add(Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 2)),
-      subject: 'Consulta Inicial',
-      color: Colors.blue, // Pode ser ajustado para usar cores do tema
-    ));
+    appointments.add(
+      Appointment(
+        startTime: DateTime.now(),
+        endTime: DateTime.now().add(const Duration(hours: 2)),
+        subject: 'Consulta Inicial',
+        color: Colors.blue, // Pode ser ajustado para usar cores do tema
+      ),
+    );
 
     return _AppointmentDataSource(appointments);
   }

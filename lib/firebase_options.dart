@@ -64,7 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '805720964005',
     projectId: 'app-agendamento-veiculos',
     storageBucket: 'app-agendamento-veiculos.firebasestorage.app',
-    iosClientId: '805720964005-nnu4ekapl4sfephe57urqgjirit1qddp.apps.googleusercontent.com',
+    iosClientId:
+        '805720964005-nnu4ekapl4sfephe57urqgjirit1qddp.apps.googleusercontent.com',
     iosBundleId: 'com.example.agendamentoApp',
   );
 
@@ -74,7 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '805720964005',
     projectId: 'app-agendamento-veiculos',
     storageBucket: 'app-agendamento-veiculos.firebasestorage.app',
-    iosClientId: '805720964005-nnu4ekapl4sfephe57urqgjirit1qddp.apps.googleusercontent.com',
+    iosClientId:
+        '805720964005-nnu4ekapl4sfephe57urqgjirit1qddp.apps.googleusercontent.com',
     iosBundleId: 'com.example.agendamentoApp',
   );
 

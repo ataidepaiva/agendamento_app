@@ -9,8 +9,8 @@ class GerenciarVeiculosPage extends StatefulWidget {
 }
 
 class _GerenciarVeiculosPageState extends State<GerenciarVeiculosPage> {
-  final CollectionReference veiculosCollection =
-      FirebaseFirestore.instance.collection('veiculos');
+  final CollectionReference veiculosCollection = FirebaseFirestore.instance
+      .collection('veiculos');
 
   final _formKey = GlobalKey<FormState>();
   final _modeloCtrl = TextEditingController();
@@ -58,14 +58,16 @@ class _GerenciarVeiculosPageState extends State<GerenciarVeiculosPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(
-                'Veículo ${docId == null ? 'adicionado' : 'atualizado'} com sucesso!')),
+          content: Text(
+            'Veículo ${docId == null ? 'adicionado' : 'atualizado'} com sucesso!',
+          ),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao salvar veículo: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao salvar veículo: $e')));
     }
   }
 
@@ -152,20 +154,22 @@ class _GerenciarVeiculosPageState extends State<GerenciarVeiculosPage> {
         content: const Text('Excluir este veículo?'),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancelar')),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
           ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Excluir')),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Excluir'),
+          ),
         ],
       ),
     );
     if (confirm == true) {
       await veiculosCollection.doc(id).delete();
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veículo excluído')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Veículo excluído')));
     }
   }
 
@@ -223,9 +227,10 @@ class _GerenciarVeiculosPageState extends State<GerenciarVeiculosPage> {
                       Text(
                         modelo,
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -245,7 +250,10 @@ class _GerenciarVeiculosPageState extends State<GerenciarVeiculosPage> {
                             onPressed: () => _mostrarDialogoSalvar(doc),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.redAccent),
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.redAccent,
+                            ),
                             tooltip: 'Excluir veículo',
                             onPressed: () => _excluirVeiculo(doc.id),
                           ),
