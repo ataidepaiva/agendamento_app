@@ -3,9 +3,7 @@ import 'package:agendamento_app/pages/admin/gerenciar_agendamentos_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_calendario_page.dart';
 import 'package:agendamento_app/pages/admin/graficos_page.dart';
 import 'package:agendamento_app/pages/admin/admin_home_content_page.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_escolas_page.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_veiculos_page.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_motoristas_page.dart';
+import 'package:agendamento_app/pages/admin/gerenciar_page.dart';
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -22,9 +20,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     GerenciarAgendamentosPage(),
     GerenciarCalendarioPage(),
     GraficosPage(),
-    GerenciarEscolasPage(),
-    GerenciarVeiculosPage(),
-    GerenciarMotoristasPage(),
+    GerenciarPage(),
   ];
 
   static const List<String> _widgetTitles = <String>[
@@ -32,9 +28,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     'Gerenciar Agendamentos',
     'Calendário de Agendamentos',
     'Gráficos e Estatísticas',
-    'Gerenciar Escolas',
-    'Gerenciar Veículos',
-    'Gerenciar Motoristas',
+    'Gerenciar',
   ];
 
   void _onItemTapped(int index) {
@@ -77,16 +71,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             label: 'Gráficos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Escolas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
-            label: 'Veículos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Motoristas',
+            icon: Icon(Icons.manage_accounts),
+            label: 'Gerenciar',
           ),
         ],
         currentIndex: _selectedIndex,

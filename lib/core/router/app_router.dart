@@ -13,6 +13,7 @@ import 'package:agendamento_app/pages/admin/gerenciar_usuarios_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_motoristas_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_escolas_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_veiculos_page.dart';
+import 'package:agendamento_app/pages/admin/gerenciar_page.dart';
 
 // Definindo as rotas
 final GoRouter router = GoRouter(
@@ -61,6 +62,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/admin/vehicles',
       builder: (context, state) => const GerenciarVeiculosPage(),
+    ),
+    GoRoute(
+      path: '/admin/gerenciar',
+      builder: (context, state) => const GerenciarPage(),
     ),
   ],
 );
