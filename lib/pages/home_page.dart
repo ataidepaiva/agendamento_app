@@ -66,14 +66,14 @@ class HomePage extends StatelessWidget {
             leading: const Icon(Icons.calendar_today),
             title: const Text('Meus Agendamentos'),
             onTap: () {
-              context.go('/meus-agendamentos');
+              context.push('/meus-agendamentos');
             },
           ),
           ListTile(
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Agendar Veículo'),
             onTap: () {
-              context.go('/agendamento');
+              context.push('/agendamento');
             },
           ),
           ListTile(

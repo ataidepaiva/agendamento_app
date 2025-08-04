@@ -256,7 +256,7 @@ class _GerenciarUsuariosPageState extends State<GerenciarUsuariosPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          context.go('/register');
+          context.push('/register');
         },
         icon: const Icon(Icons.person_add),
         label: const Text('INCLUIR NOVO'),
