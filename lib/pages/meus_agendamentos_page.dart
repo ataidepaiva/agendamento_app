@@ -66,7 +66,7 @@ class _MeusAgendamentosPageState extends State<MeusAgendamentosPage> {
                     agendamento['dataHoraViagem'] as Timestamp?;
                 final data = dataTimestamp?.toDate();
                 final status = agendamento['status'] ?? 'pendente';
-                final rotaId = agendamento['rotaId'] ?? '';
+                final rotaId = (agendamento.data() as Map<String, dynamic>)['rotaId'] ?? '';
 
                 if (data == null) {
                   debugPrint(
