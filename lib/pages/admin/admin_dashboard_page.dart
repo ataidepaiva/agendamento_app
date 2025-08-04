@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_agendamentos_page.dart';
-import 'package:agendamento_app/pages/admin/gerenciar_calendario_page.dart';
-import 'package:agendamento_app/pages/admin/graficos_page.dart';
 import 'package:agendamento_app/pages/admin/admin_home_content_page.dart';
 import 'package:agendamento_app/pages/admin/gerenciar_page.dart';
+import 'package:agendamento_app/pages/admin/visualizar_page.dart';
+import 'package:agendamento_app/pages/admin/gerenciar_agendamentos_page.dart';
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -18,16 +17,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     AdminHomeContentPage(),
     GerenciarAgendamentosPage(),
-    GerenciarCalendarioPage(),
-    GraficosPage(),
+    VisualizarPage(),
     GerenciarPage(),
   ];
 
   static const List<String> _widgetTitles = <String>[
     'Painel Administrativo',
     'Gerenciar Agendamentos',
-    'Calendário de Agendamentos',
-    'Gráficos e Estatísticas',
+    'Visualizar',
     'Gerenciar',
   ];
 
@@ -59,12 +56,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             label: 'Agendamentos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Calendário',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Gráficos',
+            icon: Icon(Icons.visibility),
+            label: 'Visualizar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.manage_accounts),

@@ -30,7 +30,9 @@ class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
         final data = doc.data();
         final status = data['status']?.toLowerCase();
         if (status == 'confirmado' || status == 'concluido') {
-          final dataViagem = (data['dataViagem'] as Timestamp).toDate();
+          final dataViagemTimestamp = data['dataViagem'] as Timestamp?;
+          if (dataViagemTimestamp == null) continue; // Pula se dataViagem for nula
+          final dataViagem = dataViagemTimestamp.toDate();
           final diaUtc = DateTime.utc(
             dataViagem.year,
             dataViagem.month,
@@ -57,41 +59,41 @@ class GerenciarCalendarioPageState extends State<GerenciarCalendarioPage> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
-      firstDay: DateTime.utc(2024, 1, 1),
-      lastDay: DateTime.utc(2026, 12, 31),
-      focusedDay: _focusedDay,
-      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-          _focusedDay = focusedDay;
-        });
-      },
-      eventLoader: _getAgendamentosParaDia,
-      calendarBuilders: CalendarBuilders(
-        markerBuilder: (context, day, events) {
-          if (events.isNotEmpty) {
-            return Positioned(
-              right: 1,
-              bottom: 1,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  shape: BoxShape.circle,
-                ),
-                constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                child: Text(
-                  '${events.length}',
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          }
-          return null;
+        firstDay: DateTime.utc(2024, 1, 1),
+        lastDay: DateTime.utc(2026, 12, 31),
+        focusedDay: _focusedDay,
+        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+          });
         },
-      ),
-    );
+        eventLoader: _getAgendamentosParaDia,
+        calendarBuilders: CalendarBuilders(
+          markerBuilder: (context, day, events) {
+            if (events.isNotEmpty) {
+              return Positioned(
+                right: 1,
+                bottom: 1,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                  child: Text(
+                    '${events.length}',
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            }
+            return null;
+          },
+        ),
+      );
   }
 }

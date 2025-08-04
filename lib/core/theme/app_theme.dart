@@ -68,13 +68,13 @@ final ThemeData appTheme = ThemeData(
       textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
     ),
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Color(0xFF003D6B), // A darker shade for background
-    selectedItemColor: Colors.white,
-    unselectedItemColor: Colors.white70, // Slightly less prominent for unselected
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: const Color(0xFF003D6B), // Azul escuro corporativo
+    selectedItemColor: Colors.amber,
+    unselectedItemColor: Colors.white, // Itens não selecionados brancos
     type: BottomNavigationBarType.fixed, // Ensure all items are visible
-    selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-    unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+    selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
+    unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
   ),
   textTheme: const TextTheme(
     headlineSmall: TextStyle(
